@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./RestAPI.css";
 
+axios.defaults.withCredentials = true;
+
 function RestAPI() {
   const [text, setText] = useState([]);
 
@@ -12,10 +14,11 @@ function RestAPI() {
         <button
           onClick={() => {
             axios
-              .post("http://127.0.0.1:8000/review/", {
+              .post("/review/", {
                 title: "제목",
                 content: "내용",
-              })
+              },
+              {withCredentials : true},)
               .then(function (response) {
                 console.log(response);
               })
@@ -29,7 +32,8 @@ function RestAPI() {
         <button
           onClick={() => {
             axios
-              .get("http://127.0.0.1:8000/review/")
+              .get("/review/",
+              {withCredentials:true},)
               .then((response) => {
                 setText([...response.data]);
                 console.log(response.data);
@@ -52,7 +56,8 @@ function RestAPI() {
             <button
               className="btn-delete"
               onClick={() => {
-                axios.delete(`http://127.0.0.1:8000/review/${e.id}`);
+                axios.delete(`/review/${e.id}`,
+                {withCredentials:true},);
                 setText(text.filter((text) => text.id !== e.id));
               }}
             >
